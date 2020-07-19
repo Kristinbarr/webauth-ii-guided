@@ -12,7 +12,7 @@ const sessionConfig = {
   naem: 'ohfosho', // deafult sid, will be an env variable
   secret: 'keep it secret!', // will be an env variable
   cookie: {
-    httpOnly: false, // client JS cannot access the cookie
+    httpOnly: true, // client JS cannot access the cookie
     maxAge: 1000 * 60 * 60, // expiration time in milliseconds
     secure: false, // only send cookies over HTTPS. true in production for ease
   },
@@ -21,10 +21,10 @@ const sessionConfig = {
 }
 
 // global middleware
-server.user(sessions(sessionConfig)) // turn on sessions, pass it a session config obj
+server.use(sessions(sessionConfig)) // turn on sessions support
 server.use(helmet());
 server.use(express.json());
-server.use(cors());
+server.use(cors()); // for client coming from different domain
 
 server.use('/api/auth', authRouter);
 server.use('/api/users', usersRouter);
